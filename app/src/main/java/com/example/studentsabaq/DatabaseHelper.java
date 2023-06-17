@@ -16,6 +16,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_STUDENT = "students";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_IMAGE = "image";
+    private static final String COLUMN_SABAQ_START = "sabaq_start";
+    private static final String COLUMN_SABAQ_END = "sabaq_end";
+    private static final String COLUMN_SABQI = "sabqi";
+    private static final String COLUMN_MANZIL_RANGE = "manzil_range";
     private static final String COLUMN_NAME = "name";
 
     public DatabaseHelper(Context context) {
@@ -27,7 +31,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Create the student table
         String createTableQuery = "CREATE TABLE IF NOT EXISTS " + TABLE_STUDENT + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_IMAGE + " BLOB, " +
+                COLUMN_IMAGE + " INTEGER, " +
+                COLUMN_SABAQ_START + " INTEGER, " +
+                COLUMN_SABAQ_END + " INTEGER, " +
+                COLUMN_SABQI + " INTEGER, " +
+                COLUMN_MANZIL_RANGE + " INTEGER, " +
                 COLUMN_NAME + " TEXT)";
         db.execSQL(createTableQuery);
     }
@@ -41,14 +49,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Insert a student record with image and name
-    public void insertStudent(byte[] image, String name) {
+    public void insertStudent(Student student) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_IMAGE, image);
-        values.put(COLUMN_NAME, name);
+        values.put(COLUMN_IMAGE, student.getImage());
+        values.put(COLUMN_SABAQ_START, student.getSabaq_start());
+        values.put(COLUMN_SABAQ_END, student.getSabaq_end());
+        values.put(COLUMN_SABQI, student.getSabqi());
+        values.put(COLUMN_MANZIL_RANGE, student.getManzil_range());
+        values.put(COLUMN_NAME, student.getName());
         db.insert(TABLE_STUDENT, null, values);
         db.close();
     }
+
     public void insertStudents(List<Student> students) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
@@ -57,6 +70,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             for (Student student : students) {
                 ContentValues values = new ContentValues();
                 values.put(COLUMN_IMAGE, student.getImage());
+                values.put(COLUMN_SABAQ_START, student.getSabaq_start());
+                values.put(COLUMN_SABAQ_END, student.getSabaq_end());
+                values.put(COLUMN_SABQI, student.getSabqi());
+                values.put(COLUMN_MANZIL_RANGE, student.getSabaq_end());
                 values.put(COLUMN_NAME, student.getName());
                 db.insert(TABLE_STUDENT, null, values);
             }
@@ -67,23 +84,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Retrieve a student record by ID
-    // Retrieve a student record by ID
     public Student getStudentById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_STUDENT, new String[]{COLUMN_ID, COLUMN_IMAGE, COLUMN_NAME},
+        Cursor cursor = db.query(TABLE_STUDENT, new String[]{COLUMN_ID, COLUMN_IMAGE, COLUMN_SABAQ_START, COLUMN_SABAQ_END, COLUMN_SABQI, COLUMN_MANZIL_RANGE, COLUMN_NAME},
                 COLUMN_ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
 
         if (cursor != null && cursor.moveToFirst()) {
             int idIndex = cursor.getColumnIndex(COLUMN_ID);
             int imageIndex = cursor.getColumnIndex(COLUMN_IMAGE);
+            int sabaqStartIndex = cursor.getColumnIndex(COLUMN_SABAQ_START);
+            int sabaqEndIndex = cursor.getColumnIndex(COLUMN_SABAQ_END);
+            int sabqiIndex = cursor.getColumnIndex(COLUMN_SABQI);
+            int manzilRangeIndex = cursor.getColumnIndex(COLUMN_MANZIL_RANGE);
             int nameIndex = cursor.getColumnIndex(COLUMN_NAME);
 
             // Check if the column indexes are valid
-            if (idIndex >= 0 && imageIndex >= 0 && nameIndex >= 0) {
-                byte[] image = cursor.getBlob(imageIndex);
+            if (idIndex >= 0 && imageIndex >= 0 && sabaqStartIndex >= 0 && sabaqEndIndex >= 0 && sabqiIndex >= 0 && manzilRangeIndex >= 0 && nameIndex >= 0) {
+                int image = cursor.getInt(imageIndex);
+                int sabaqStart = cursor.getInt(sabaqStartIndex);
+                int sabaqEnd = cursor.getInt(sabaqEndIndex);
+                int sabqi = cursor.getInt(sabqiIndex);
+                int manzilRange = cursor.getInt(manzilRangeIndex);
                 String name = cursor.getString(nameIndex);
                 cursor.close();
-                return new Student(id, image, name);
+                return new Student(id, image, sabaqStart, sabaqEnd, sabqi, manzilRange, name);
             } else {
                 cursor.close();
                 return null;
@@ -104,16 +128,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor != null && cursor.moveToFirst()) {
             int idIndex = cursor.getColumnIndex(COLUMN_ID);
             int imageIndex = cursor.getColumnIndex(COLUMN_IMAGE);
+            int sabaqStartIndex = cursor.getColumnIndex(COLUMN_SABAQ_START);
+            int sabaqEndIndex = cursor.getColumnIndex(COLUMN_SABAQ_END);
+            int sabqiIndex = cursor.getColumnIndex(COLUMN_SABQI);
+            int manzilRangeIndex = cursor.getColumnIndex(COLUMN_MANZIL_RANGE);
             int nameIndex = cursor.getColumnIndex(COLUMN_NAME);
 
             // Check if the column indexes are valid
-            if (idIndex >= 0 && imageIndex >= 0 && nameIndex >= 0) {
+            if (idIndex >= 0 && imageIndex >= 0 && sabaqStartIndex >= 0 && sabaqEndIndex >= 0 && sabqiIndex >= 0 && manzilRangeIndex >= 0 && nameIndex >= 0) {
                 do {
                     int id = cursor.getInt(idIndex);
-                    byte[] image = cursor.getBlob(imageIndex);
+                    int image = cursor.getInt(imageIndex);
+                    int sabaqStart = cursor.getInt(sabaqStartIndex);
+                    int sabaqEnd = cursor.getInt(sabaqEndIndex);
+                    int sabqi = cursor.getInt(sabqiIndex);
+                    int manzilRange = cursor.getInt(manzilRangeIndex);
                     String name = cursor.getString(nameIndex);
 
-                    Student student = new Student(id, image, name);
+                    Student student = new Student(id, image, sabaqStart, sabaqEnd, sabqi, manzilRange, name);
                     studentList.add(student);
                 } while (cursor.moveToNext());
 
@@ -125,7 +157,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return studentList;
     }
-
-
-
 }
