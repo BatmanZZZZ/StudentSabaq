@@ -14,17 +14,68 @@ public class Student {
     }
 
     private int image;
-    private int sabaq_start;
 
-    public Student(int id, int image, int sabaq_start, int sabaq_end, int sabqi, int manzil_range, String name) {
+    public Student(int id, int image, int age, int cls, int current_para, int sabaq_start, int current_manzil_para, int sabaq_end, int sabqi, int manzil_range, String name) {
         this.id = id;
         this.image = image;
+        this.age = age;
+        this.cls = cls;
+        this.current_para = current_para;
         this.sabaq_start = sabaq_start;
+        this.current_manzil_para = current_manzil_para;
         this.sabaq_end = sabaq_end;
         this.sabqi = sabqi;
         this.manzil_range = manzil_range;
         this.name = name;
     }
+
+    private int age;
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getCls() {
+        return cls;
+    }
+
+    public void setCls(int cls) {
+        this.cls = cls;
+    }
+
+    private int cls;
+
+
+
+    public int getCurrent_para() {
+        return current_para;
+    }
+
+    public void setCurrent_para(int current_para) {
+        this.current_para = current_para;
+    }
+
+
+
+    private int current_para;
+    private int sabaq_start;
+
+    public int getCurrent_manzil_para() {
+        return current_manzil_para;
+    }
+
+    public void setCurrent_manzil_para(int current_manzil_para) {
+        this.current_manzil_para = current_manzil_para;
+    }
+
+
+    private int current_manzil_para;
+
+
 
     private int sabaq_end;
     private int sabqi;

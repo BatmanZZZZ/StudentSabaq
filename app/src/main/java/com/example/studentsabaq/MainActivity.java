@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.appcompat.widget.SearchView;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     DatabaseHelper db;
     List<Student> studentList;
+
+    Button ButtonAdd;
     List<Student> filteredStudentList;
 
     EditText editTextSearch;
@@ -48,35 +51,57 @@ public class MainActivity extends AppCompatActivity {
 
         // Create Student objects
         studentList = new ArrayList<>();
-        studentList.add(new Student(0, R.drawable.b, 5, 10, 15, 20, "Hamza"));
-        studentList.add(new Student(1, R.drawable.c, 7, 12, 18, 25, "Ali"));
-        studentList.add(new Student(2, R.drawable.d, 3, 20, 10, 30, "Ahmad"));
-        studentList.add(new Student(3, R.drawable.a, 8, 22, 5, 12, "Farzad"));
-        studentList.add(new Student(4, R.drawable.d, 15, 25, 9, 21, "Hamza"));
-        studentList.add(new Student(5, R.drawable.a, 11, 7, 27, 8, "Ali"));
-        studentList.add(new Student(6, R.drawable.c, 16, 3, 14, 29, "Ahmad"));
-        studentList.add(new Student(7, R.drawable.a, 9, 18, 4, 17, "Farzad"));
-        studentList.add(new Student(8, R.drawable.c, 21, 30, 6, 23, "Hamza"));
-        studentList.add(new Student(9, R.drawable.d, 2, 11, 26, 1, "Ali"));
+        studentList.add(new Student(0, R.drawable.b, 12, 3, 5, 10, 1, 20, 4, 4, "Ahmed"));
+        studentList.add(new Student(1, R.drawable.c, 10, 4, 7, 12, 3, 25, 6, 6, "Fatima"));
+        studentList.add(new Student(2, R.drawable.d, 14, 5, 3, 20, 1, 30, 2, 2, "Mohammed"));
+        studentList.add(new Student(0, R.drawable.a, 12, 3, 5, 10, 1, 20, 4, 4, "Ahmed"));
+        studentList.add(new Student(1, R.drawable.c, 10, 4, 7, 12, 3, 25, 6, 6, "Fatima"));
+        studentList.add(new Student(2, R.drawable.d, 14, 5, 3, 20, 1, 30, 2, 2, "Mohammed"));
+        studentList.add(new Student(0, R.drawable.a, 12, 3, 5, 10, 1, 20, 4, 4, "Ahmed"));
+        studentList.add(new Student(1, R.drawable.c, 10, 4, 7, 12, 3, 25, 6, 6, "Fatima"));
+        studentList.add(new Student(2, R.drawable.d, 14, 5, 3, 20, 1, 30, 2, 2, "Mohammed"));
 
-        refreshGrid(studentList);
+        adapter = new studentViewHolder(studentList);
+        recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new studentViewHolder.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                // Get the clicked student object
+                Student clickedStudent = studentList.get(position);
+
+                // Create an explicit intent to navigate to the target activity
+                Intent intent = new Intent(MainActivity.this, MainActivity3.class);
+                intent.putExtra("student", position); // Pass the student object to the other activity
+                startActivity(intent);
+            }
+        });
+
+        ButtonAdd=findViewById(R.id.addstudent);
+
+        ButtonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an explicit intent to navigate to the target activity
+                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                startActivity(intent);
+            }
+        });
 
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String query = editTextSearch.getText().toString().trim();
-                filterStudentList(query,studentList);
+                filterStudentList(query, studentList);
             }
         });
     }
 
-
-
-    private void filterStudentList(String query,List<Student> studentList) {
+    private void filterStudentList(String query, List<Student> studentList) {
         filteredStudentList = new ArrayList<>();
 
         if (query.isEmpty()) {
-            filteredStudentList=db.getAllStudents();
+            filteredStudentList = db.getAllStudents();
         } else {
             query = query.toLowerCase();
             for (Student student : studentList) {
@@ -84,14 +109,10 @@ public class MainActivity extends AppCompatActivity {
                     filteredStudentList.add(student);
                 }
             }
-            layoutManager = new LinearLayoutManager(MainActivity.this);
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setHasFixedSize(true);
-            adapter = new studentViewHolder(filteredStudentList);
-            recyclerView.setAdapter(adapter);
         }
         adapter.notifyDataSetChanged();
     }
+
     public void refreshGrid(List<Student> studentList) {
         db = new DatabaseHelper(this);
         db.insertStudents(studentList);
@@ -101,5 +122,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         adapter = new studentViewHolder(studentList1);
         recyclerView.setAdapter(adapter);
+        db.close();
     }
 }
