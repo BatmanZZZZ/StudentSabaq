@@ -1,9 +1,11 @@
 package com.example.studentsabaq;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -12,7 +14,10 @@ import java.util.List;
 
 public class MainActivity3 extends AppCompatActivity {
 
+    TextView studentname;
+
     TextView sabaqtextview;
+
     Button sabaqdone;
     Button sabaqrepeat;
     Button assignsabaq;
@@ -32,6 +37,8 @@ public class MainActivity3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
 
+        studentname=findViewById(R.id.StudentName);
+
         sabaqtextview=findViewById(R.id.SabaqRange);
         sabaqdone=findViewById(R.id.SabaqDoneButton);
         sabaqrepeat=findViewById(R.id.SabaqRepeatButton);
@@ -43,13 +50,51 @@ public class MainActivity3 extends AppCompatActivity {
         manzildone=findViewById(R.id.ManzilDone);
         manzilrepeat=findViewById(R.id.ManzilRepeat);
 
+        assignsabaq.setEnabled(false);
+        assignsabaq.setBackgroundColor(ContextCompat.getColor(this, R.color.disabledButtonColor));
+
         Intent a = getIntent();
         int id = a.getIntExtra("studentId",0);
 
         db = new DatabaseHelper(this);
         Student student=db.getStudentById(id);
-        sabaqtextview.setText(student.getName());
 
+        studentname.setText(student.getName());
+        sabaqtextview.setText(String.valueOf(student.getSabaq_start() +" -  " + student.getSabaq_end()));
+
+        sabqitextview.setText(String.valueOf(student.getSabqi()));
+
+        manziltextview.setText(String.valueOf(student.getCurrent_manzil_para()));
+        assignsabaq.setEnabled(false);
+        assignsabaq.setBackgroundColor(ContextCompat.getColor(MainActivity3.this,R.color.disabledButtonColor));
+
+        sabaqdone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sabaqrepeat.setEnabled(false);
+                sabaqrepeat.setBackgroundColor(ContextCompat.getColor(MainActivity3.this,R.color.disabledButtonColor));
+                assignsabaq.setEnabled(true);
+                assignsabaq.setBackgroundColor(ContextCompat.getColor(MainActivity3.this,R.color.purple_500));
+            }
+        });
+        sabaqrepeat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sabaqdone.setEnabled(false);
+                sabaqdone.setBackgroundColor(ContextCompat.getColor(MainActivity3.this,R.color.disabledButtonColor));
+            }
+        });
+
+        manzildone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                manzilrepeat.setEnabled(false);
+                manzilrepeat.setBackgroundColor(ContextCompat.getColor(MainActivity3.this, R.color.disabledButtonColor));
+                if(student.getCurrent_manzil_para()>= student.getManzil_range()){
+                    db.updateCurrentManzilPara(id,student.getCurrent_manzil_para());
+                }
+            }
+        });
 
 
 

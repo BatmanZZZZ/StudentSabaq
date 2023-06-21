@@ -55,6 +55,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(dropTableQuery);
         onCreate(db);
     }
+    public void updateSabaqRange(int id, int sabaqStart, int sabaqEnd) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_SABAQ_START, sabaqStart);
+        values.put(COLUMN_SABAQ_END, sabaqEnd);
+
+        String whereClause = COLUMN_ID + " = ?";
+        String[] whereArgs = {String.valueOf(id)};
+
+        db.update(TABLE_STUDENT, values, whereClause, whereArgs);
+        db.close();
+    }
+    public void updateCurrentManzilPara(int id, int currentManzilPara) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_CURRENT_MANZIL_PARA, currentManzilPara+1);
+
+        String whereClause = COLUMN_ID + " = ?";
+        String[] whereArgs = {String.valueOf(id)};
+
+        db.update(TABLE_STUDENT, values, whereClause, whereArgs);
+        db.close();
+    }
+
+
 
     // Insert a student record with image and name
     public void insertStudent(Student student) {
