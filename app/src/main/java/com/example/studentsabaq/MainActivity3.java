@@ -15,6 +15,7 @@ import java.util.List;
 public class MainActivity3 extends AppCompatActivity {
 
     TextView studentname;
+    TextView parano;
 
     TextView sabaqtextview;
 
@@ -38,11 +39,13 @@ public class MainActivity3 extends AppCompatActivity {
         setContentView(R.layout.activity_main3);
 
         studentname=findViewById(R.id.StudentName);
+        parano=findViewById(R.id.parano);
 
         sabaqtextview=findViewById(R.id.SabaqRange);
         sabaqdone=findViewById(R.id.SabaqDoneButton);
         sabaqrepeat=findViewById(R.id.SabaqRepeatButton);
         assignsabaq=findViewById(R.id.AssignSabaq);
+
 
         sabqitextview=findViewById(R.id.SabqiParaNo);
 
@@ -63,6 +66,8 @@ public class MainActivity3 extends AppCompatActivity {
         sabaqtextview.setText(String.valueOf(student.getSabaq_start() +" -  " + student.getSabaq_end()));
 
         sabqitextview.setText(String.valueOf(student.getSabqi()));
+
+        parano.setText(String.valueOf(student.getCurrent_para()));
 
         manziltextview.setText(String.valueOf(student.getCurrent_manzil_para()));
         assignsabaq.setEnabled(false);
@@ -92,6 +97,13 @@ public class MainActivity3 extends AppCompatActivity {
                 manzilrepeat.setBackgroundColor(ContextCompat.getColor(MainActivity3.this, R.color.disabledButtonColor));
                 if(student.getCurrent_manzil_para()>= student.getManzil_range()){
                     db.updateCurrentManzilPara(id,student.getCurrent_manzil_para());
+                    manzildone.setEnabled(false);
+                    manzildone.setBackgroundColor(ContextCompat.getColor(MainActivity3.this,R.color.disabledButtonColor));
+                }
+                else{
+                    db.updateCurrentManzilPara(id,0);
+                    manzildone.setEnabled(false);
+                    manzildone.setBackgroundColor(ContextCompat.getColor(MainActivity3.this,R.color.disabledButtonColor));
                 }
             }
         });

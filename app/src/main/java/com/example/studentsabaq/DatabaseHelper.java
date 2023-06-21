@@ -68,6 +68,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update(TABLE_STUDENT, values, whereClause, whereArgs);
         db.close();
     }
+    public void updateManzilRangeAndSabqi(int id, int manzilRange, int sabqi) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_MANZIL_RANGE, manzilRange);
+        values.put(COLUMN_SABQI, sabqi);
+
+        String whereClause = COLUMN_ID + " = ?";
+        String[] whereArgs = {String.valueOf(id)};
+
+        db.update(TABLE_STUDENT, values, whereClause, whereArgs);
+        db.close();
+    }
+
     public void updateCurrentManzilPara(int id, int currentManzilPara) {
         SQLiteDatabase db = this.getWritableDatabase();
 
