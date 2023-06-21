@@ -50,15 +50,13 @@ public class MainActivity2 extends AppCompatActivity {
 
 
 
-        Student obj = new Student(0,R.drawable.a,age , className,0,0,0,0,0,0,name);
+        Student obj = new Student(age , className,0,0,0,0,0,0,name);
         db.insertStudent(obj);
 
         Toast.makeText(this, "Student added successfully", Toast.LENGTH_SHORT).show();
 
-        List<Student> lis = db.getAllStudents();
 
-        MainActivity obj1 = new MainActivity();
-        obj1.refreshGrid(lis);
+
 
         db.close();
 

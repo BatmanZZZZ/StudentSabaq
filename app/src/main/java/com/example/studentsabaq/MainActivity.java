@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     EditText editTextSearch;
     Button buttonSearch;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,31 +53,19 @@ public class MainActivity extends AppCompatActivity {
 
         // Create Student objects
         studentList = new ArrayList<>();
-        studentList.add(new Student(0, R.drawable.b, 12, 3, 5, 10, 1, 20, 4, 4, "Ahmed"));
-        studentList.add(new Student(1, R.drawable.c, 10, 4, 7, 12, 3, 25, 6, 6, "Fatima"));
-        studentList.add(new Student(2, R.drawable.d, 14, 5, 3, 20, 1, 30, 2, 2, "Mohammed"));
-        studentList.add(new Student(0, R.drawable.a, 12, 3, 5, 10, 1, 20, 4, 4, "Ahmed"));
-        studentList.add(new Student(1, R.drawable.c, 10, 4, 7, 12, 3, 25, 6, 6, "Fatima"));
-        studentList.add(new Student(2, R.drawable.d, 14, 5, 3, 20, 1, 30, 2, 2, "Mohammed"));
-        studentList.add(new Student(0, R.drawable.a, 12, 3, 5, 10, 1, 20, 4, 4, "Ahmed"));
-        studentList.add(new Student(1, R.drawable.c, 10, 4, 7, 12, 3, 25, 6, 6, "Fatima"));
-        studentList.add(new Student(2, R.drawable.d, 14, 5, 3, 20, 1, 30, 2, 2, "Mohammed"));
+        studentList.add(new Student( 12, 3, 5, 10, 1, 20, 4, 4, "Ahmed"));
+        studentList.add(new Student( 10, 4, 7, 12, 3, 25, 6, 6, "Fatima"));
+        studentList.add(new Student( 14, 5, 3, 20, 1, 30, 2, 2, "Mohammed"));
+        studentList.add(new Student( 12, 3, 5, 10, 1, 20, 4, 4, "Ahmed"));
+        studentList.add(new Student( 10, 4, 7, 12, 3, 25, 6, 6, "Fatima"));
+        studentList.add(new Student( 14, 5, 3, 20, 1, 30, 2, 2, "Mohammed"));
+        studentList.add(new Student( 12, 3, 5, 10, 1, 20, 4, 4, "Ahmed"));
+        studentList.add(new Student( 10, 4, 7, 12, 3, 25, 6, 6, "Fatima"));
+        studentList.add(new Student( 14, 5, 3, 20, 1, 30, 2, 2, "Mohammed"));
 
-        adapter = new studentViewHolder(studentList);
-        recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new studentViewHolder.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                // Get the clicked student object
-                Student clickedStudent = studentList.get(position);
 
-                // Create an explicit intent to navigate to the target activity
-                Intent intent = new Intent(MainActivity.this, MainActivity3.class);
-                intent.putExtra("student", position); // Pass the student object to the other activity
-                startActivity(intent);
-            }
-        });
+        refreshGrid(studentList);
 
         ButtonAdd=findViewById(R.id.addstudent);
 
@@ -92,16 +82,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String query = editTextSearch.getText().toString().trim();
-                filterStudentList(query, studentList);
+                List<Student> a= db.getAllStudents();
+                filterStudentList(query,a);
             }
         });
     }
 
-    private void filterStudentList(String query, List<Student> studentList) {
+
+
+    private void filterStudentList(String query,List<Student> studentList) {
         filteredStudentList = new ArrayList<>();
 
         if (query.isEmpty()) {
-            filteredStudentList = db.getAllStudents();
+            filteredStudentList=db.getAllStudents();
         } else {
             query = query.toLowerCase();
             for (Student student : studentList) {
@@ -109,19 +102,26 @@ public class MainActivity extends AppCompatActivity {
                     filteredStudentList.add(student);
                 }
             }
+            layoutManager = new LinearLayoutManager(MainActivity.this);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setHasFixedSize(true);
+            adapter = new studentViewHolder(filteredStudentList,MainActivity.this);
+            recyclerView.setAdapter(adapter);
         }
         adapter.notifyDataSetChanged();
     }
-
     public void refreshGrid(List<Student> studentList) {
         db = new DatabaseHelper(this);
+        db.deleteAllStudents();
         db.insertStudents(studentList);
         List<Student> studentList1 = db.getAllStudents();
         layoutManager = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        adapter = new studentViewHolder(studentList1);
+        adapter = new studentViewHolder(studentList1,MainActivity.this);
         recyclerView.setAdapter(adapter);
         db.close();
     }
+
+
 }

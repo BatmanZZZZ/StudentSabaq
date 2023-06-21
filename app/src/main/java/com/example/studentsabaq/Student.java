@@ -1,23 +1,7 @@
 package com.example.studentsabaq;
 
 public class Student {
-    private int id;
-
-
-
-    public int getImage() {
-        return image;
-    }
-
-    public void setImage(int image) {
-        this.image = image;
-    }
-
-    private int image;
-
-    public Student(int id, int image, int age, int cls, int current_para, int sabaq_start, int current_manzil_para, int sabaq_end, int sabqi, int manzil_range, String name) {
-        this.id = id;
-        this.image = image;
+    public Student(int age, int cls, int current_para, int sabaq_start, int current_manzil_para, int sabaq_end, int sabqi, int manzil_range, String name) {
         this.age = age;
         this.cls = cls;
         this.current_para = current_para;
@@ -28,6 +12,30 @@ public class Student {
         this.manzil_range = manzil_range;
         this.name = name;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Student(int id, int age, int cls, int current_para, int sabaq_start, int current_manzil_para, int sabaq_end, int sabqi, int manzil_range, String name) {
+        this.id = id;
+        this.age = age;
+        this.cls = cls;
+        this.current_para = current_para;
+        this.sabaq_start = sabaq_start;
+        this.current_manzil_para = current_manzil_para;
+        this.sabaq_end = sabaq_end;
+        this.sabqi = sabqi;
+        this.manzil_range = manzil_range;
+        this.name = name;
+    }
+
+    private int id;
+
 
     private int age;
 
@@ -101,9 +109,7 @@ public class Student {
 
 
 
-    public void setId(int id) {
-        this.id = id;
-    }
+
 
 
 
@@ -131,9 +137,7 @@ public class Student {
 
 
 
-    public int getId() {
-        return id;
-    }
+
 
 
 

@@ -6,13 +6,182 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity3">
 
+    <!-- activity_student_details.xml -->
+
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="121dp"
-        android:layout_marginTop="124dp"
-        android:text="TextView"
+        android:id="@+id/Sabaq"
+        android:layout_width="103dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="100dp"
+        android:text="Sabaq : "
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/ManzilRepeat" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@+id/SabaqRange" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/Sabqi" />
+
+
+    <Button
+        android:id="@+id/SabaqDoneButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="56dp"
+        android:text="Done"
+        app:layout_constraintStart_toStartOf="@id/Sabaq"
+        app:layout_constraintTop_toBottomOf="@+id/Sabaq" />
+
+    <Button
+        android:id="@+id/SabaqRepeatButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="56dp"
+        android:text="Repeat"
+        app:layout_constraintStart_toEndOf="@id/SabaqDoneButton"
+        app:layout_constraintTop_toBottomOf="@+id/Sabaq" />
+
+
+    <Button
+        android:id="@+id/AssignSabaq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="4dp"
+        android:text="Assign Work"
+        app:layout_constraintStart_toStartOf="@id/SabaqDoneButton"
+        app:layout_constraintTop_toBottomOf="@+id/SabaqRepeatButton" />
+
+
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"
+        android:background="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/AssignSabaq"
+        app:layout_constraintTop_toBottomOf="@+id/AssignSabaq"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/Sabqi"
+        android:layout_width="97dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="44dp"
+        android:text="Saqbqi :"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@id/Sabaq"
+        app:layout_constraintTop_toBottomOf="@+id/AssignSabaq" />
+
+    <TextView
+        android:id="@+id/Manzil"
+        android:layout_width="93dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="76dp"
+        android:text="Manzil :"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@id/Sabaq"
+        app:layout_constraintTop_toBottomOf="@+id/Sabqi" />
+
+    <Button
+        android:id="@+id/ManzilDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="40dp"
+        android:text="Done"
+        app:layout_constraintStart_toStartOf="@id/Sabaq"
+        app:layout_constraintTop_toBottomOf="@+id/Manzil" />
+
+    <Button
+        android:id="@+id/ManzilRepeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="40dp"
+        android:text="Repeat"
+        app:layout_constraintStart_toEndOf="@id/ManzilDone"
+        app:layout_constraintTop_toBottomOf="@+id/Manzil" />
+
+    <TextView
+        android:id="@+id/SabaqRange"
+        android:layout_width="129dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="96dp"
+        android:text="TextView"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/Sabaq"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/SabqiParaNo"
+        android:layout_width="132dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="44dp"
+        android:text="TextView"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/Sabqi"
+        app:layout_constraintTop_toBottomOf="@+id/AssignSabaq" />
+
+    <TextView
+        android:id="@+id/ManzilParaNo"
+        android:layout_width="135dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="68dp"
+        android:text="TextView"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/Manzil"
+        app:layout_constraintTop_toBottomOf="@+id/Sabqi" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="99dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="32dp"
+        android:text="Student Name : "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="107dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="108dp"
+        android:text="Name"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
