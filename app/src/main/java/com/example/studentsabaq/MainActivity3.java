@@ -89,6 +89,17 @@ public class MainActivity3 extends AppCompatActivity {
                 sabaqdone.setBackgroundColor(ContextCompat.getColor(MainActivity3.this,R.color.disabledButtonColor));
             }
         });
+        assignsabaq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity3.this,MainActivity4.class);
+                intent.putExtra("ID",student.getId());
+                startActivity(intent);
+
+
+            }
+        });
 
         manzildone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,11 +110,13 @@ public class MainActivity3 extends AppCompatActivity {
                     db.updateCurrentManzilPara(id,student.getCurrent_manzil_para());
                     manzildone.setEnabled(false);
                     manzildone.setBackgroundColor(ContextCompat.getColor(MainActivity3.this,R.color.disabledButtonColor));
+                    manziltextview.setText(String.valueOf(student.getCurrent_manzil_para()));
                 }
                 else{
                     db.updateCurrentManzilPara(id,0);
                     manzildone.setEnabled(false);
                     manzildone.setBackgroundColor(ContextCompat.getColor(MainActivity3.this,R.color.disabledButtonColor));
+                    manziltextview.setText(String.valueOf(student.getCurrent_manzil_para()));
                 }
             }
         });
