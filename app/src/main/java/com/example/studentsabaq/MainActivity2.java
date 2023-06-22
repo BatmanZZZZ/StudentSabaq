@@ -50,7 +50,7 @@ public class MainActivity2 extends AppCompatActivity {
 
 
 
-        Student obj = new Student(age , className,0,0,0,0,0,0,name);
+        Student obj = new Student(age , className,1,1,0,10,0,0,name);
         db.insertStudent(obj);
 
         Toast.makeText(this, "Student added successfully", Toast.LENGTH_SHORT).show();

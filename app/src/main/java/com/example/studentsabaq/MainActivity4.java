@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +21,15 @@ public class MainActivity4 extends AppCompatActivity {
     EditText e;
 
     Button submit;
+    MainActivity3 obj2;
     int id;
+    QDH obj;
 
     Student student;
 
     DatabaseHelper db;
+
+    TextView previoussabaq;
 
     int start;
     int end;
@@ -32,14 +39,25 @@ public class MainActivity4 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main4);
 
-        s=findViewById(R.id.inputsabaqstart);
-        e=findViewById(R.id.inputsabaqend);
+        db= new DatabaseHelper(MainActivity4.this);
 
         Intent intent=getIntent();
 
         id=intent.getIntExtra("ID",0);
 
+
         student = db.getStudentById(id);
+
+        previoussabaq =findViewById(R.id.Prevoussabaq);
+
+        previoussabaq.setText(String.valueOf(student.getSabaq_start() +"-"+ student.getSabaq_end()));
+
+        s=findViewById(R.id.inputsabaqstart);
+        e=findViewById(R.id.inputsabaqend);
+
+
+
+
 
 
         submit=findViewById(R.id.input);
@@ -52,6 +70,18 @@ public class MainActivity4 extends AppCompatActivity {
                 start=Integer.parseInt(start1);
                 end=Integer.parseInt(end1);
 
+                obj = new QDH();
+
+
+
+                int currentsabaqstart=student.getSabaq_start();
+                int currentsabaqend=student.getSabaq_end();
+                int currentpara=student.getCurrent_para();
+
+                obj2=new MainActivity3();
+
+                
+
                 if (start1.isEmpty()||end1.isEmpty()){
                     Toast.makeText(MainActivity4.this, "Please Fill the Required Fields", Toast.LENGTH_SHORT).show();
 
@@ -59,8 +89,18 @@ public class MainActivity4 extends AppCompatActivity {
                     Toast.makeText(MainActivity4.this, "Start Should be less than end", Toast.LENGTH_SHORT).show();
                 } else if (start==end) {
                     Toast.makeText(MainActivity4.this, "Start Should be equal to end", Toast.LENGTH_SHORT).show();
+                } else if (start<=currentsabaqend) {
+                    Toast.makeText(MainActivity4.this, "This ayat is already done please start with "+(student.getSabaq_end()+1), Toast.LENGTH_SHORT).show();
+                } else if (start>currentsabaqend+1) {
+                    Toast.makeText(MainActivity4.this, "You left some ayat behind please start with "+(student.getSabaq_end()+1), Toast.LENGTH_SHORT).show();
+                } else if (end+obj.getParahStart(currentpara-1)>=obj.getParahStart(currentpara)) {
+                    Toast.makeText(MainActivity4.this, "this para only has "+(obj.getParahStart(currentpara)-obj.getParahStart(currentpara-1)-1)+" ayats", Toast.LENGTH_SHORT).show();
+                } else if ((obj.getParahStart(currentpara-1)-obj.getParahStart(currentpara)-1)==currentsabaqend) {
+                    Toast.makeText(MainActivity4.this, "Para No "+currentpara+" is completed , Start with second Para", Toast.LENGTH_SHORT).show();
+                    db.updatePara(student.getId(), currentpara);
                 } else{
-                    QDH obj = new QDH();
+                    db.updateSabaqRange(student.getId(),start,end);
+                    Toast.makeText(MainActivity4.this, "Work Assigned", Toast.LENGTH_SHORT).show();
 
                 }
             }

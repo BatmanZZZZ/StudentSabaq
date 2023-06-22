@@ -94,6 +94,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update(TABLE_STUDENT, values, whereClause, whereArgs);
         db.close();
     }
+    public void updatePara(int id, int currentPara) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_CURRENT_PARA, currentPara+1);
+
+        String whereClause = COLUMN_ID + " = ?";
+        String[] whereArgs = {String.valueOf(id)};
+
+        db.update(TABLE_STUDENT, values, whereClause, whereArgs);
+        db.close();
+    }
 
 
 

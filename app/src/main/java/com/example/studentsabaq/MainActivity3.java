@@ -73,6 +73,14 @@ public class MainActivity3 extends AppCompatActivity {
         assignsabaq.setEnabled(false);
         assignsabaq.setBackgroundColor(ContextCompat.getColor(MainActivity3.this,R.color.disabledButtonColor));
 
+        manzilrepeat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                manzildone.setEnabled(false);
+                manzildone.setBackgroundColor(ContextCompat.getColor(MainActivity3.this,R.color.disabledButtonColor));
+            }
+        });
+
         sabaqdone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +114,7 @@ public class MainActivity3 extends AppCompatActivity {
             public void onClick(View view) {
                 manzilrepeat.setEnabled(false);
                 manzilrepeat.setBackgroundColor(ContextCompat.getColor(MainActivity3.this, R.color.disabledButtonColor));
-                if(student.getCurrent_manzil_para()>= student.getManzil_range()){
+                if(student.getCurrent_manzil_para()< student.getManzil_range()){
                     db.updateCurrentManzilPara(id,student.getCurrent_manzil_para());
                     manzildone.setEnabled(false);
                     manzildone.setBackgroundColor(ContextCompat.getColor(MainActivity3.this,R.color.disabledButtonColor));
@@ -119,6 +127,7 @@ public class MainActivity3 extends AppCompatActivity {
                     manziltextview.setText(String.valueOf(student.getCurrent_manzil_para()));
                 }
             }
+
         });
 
 
